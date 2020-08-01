@@ -1,172 +1,182 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CodePen - Music Player</title>
-  <script src="https://kit.fontawesome.com/e04ccf61b7.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="./youtube.css">
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>YouTube Music Player</title>
+	<script src="https://kit.fontawesome.com/e04ccf61b7.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="./youtube.css">
 </head>
+
 <body>
-<!-- partial:index.partial.html -->
-<div class="main-wrapper">
-    <div class="header">
-       <i class="fas fa-chevron-centre"><input type="text" id="fname" placeholder="Search"></i>
-       <a onclick="aa()"><button class="btn">Search</button></a>
-       <!-- <i class="far "><input type="button" name="fname"></i> -->
-    </div>
-    <div class="song-wrapper">
-      <div class="song-thumb-wrapper">
-        <svg class="song-progress" width="200" height="200" viewBox="0 0 200 200">
-          <circle class="song-progress-meter" cx="100" cy="100" r="90" stroke="#4d3f61" stroke-width="10" fill="none" />
-          <circle class="song-progress-value" cx="100" cy="100" r="90" stroke="#ae80d6" stroke-width="10" fill="none" stroke-dasharray="0 600" stroke-linecap="round" />
-        </svg>
-        <div class="song-thumb"></div>
-      </div>
-      <div class="song-info">
-        <span class="song-info-title">Welcome</span><br>
-        <span class="song-info-artist">Leet7here</span><br>
-        <span class="song-info-album"></span>
-      </div>
-    </div>
-    <div class="player-wrapper">
-      <i class="fas fa-circle-notch"></i>
-      <i class="fas fa-caret-left player-move-btn" onclick="prevSong()"></i>
-      <i class="fas fa-play-circle player-state-btn" onclick="toggleState()"></i>
-      <i class="fas fa-caret-right player-move-btn" onclick="nextSong()"></i>
-      <i class="fas fa-random"></i>
-    </div>
-    <div class="volume-wrapper">
-      <i class="fas fa-volume-off" style="text-align: right" onclick="adjustVolume(0)"></i>
-      <div class="volume-bar">
-        <input type="range" name="volume-slider" id="volume-slider" min="0" max="1" step="0.1" value="0.5" onchange="adjustVolume(event.target.value)">
-        <div class="volume-trail"></div>
-      </div>
-      <i class="fas fa-volume-up" onclick="adjustVolume(1)"></i>
-    </div>
-  </div>
-   <script>
-      function aa(){
-      songsList = []
-      ss = document.getElementById("fname").value
-      if(ss != ""){
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open( "POST", "/yt", false );   
-      //Give Your site/api endpoint here
-      //Structure of my api is like this :   {data:[[songtitle,songlink],[songtitle,songlink]]}
-      xmlHttp.send(ss)
-      data = JSON.parse(xmlHttp.responseText)["data"]
-      for(x in data){
-        var dict = {
-          title : data[x][0],
-          artist : "",
-          album : "",
-          link : data[x][1],
-          thumb: "https://raw.githubusercontent.com/MoosaSaadat/music-player/master/img.jpg"
-        }
-        songsList.push(dict)
-      }
-      changeSong()
-      toggleState()
-    }
-    else{
-      document.querySelector(".song-info-title").innerHTML = "Please Enter Song Name"
-    }
-  }
-  var songsList = [
-      {
-        "title": "Alone",
-        "artist": "",
-        "album": "Alone (The Remixes), 2016",
-        "link": "https://r3---sn-p5qlsndz.googlevideo.com/videoplayback?expire=1596241915&ei=m2MkX6WvLuGChga6nbjYAQ&ip=3.85.106.247&id=o-APRGe699FzA8Wos070G2WWtt7azSyLKKdKPOJ0NduMa7&itag=251&source=youtube&requiressl=yes&mh=A6&mm=31%2C29&mn=sn-p5qlsndz%2Csn-p5qs7n7d&ms=au%2Crdu&mv=m&mvi=3&pl=12&initcwndbps=1175000&vprv=1&mime=audio%2Fwebm&gir=yes&clen=12680866&dur=685.441&lmt=1541646852944225&mt=1596220231&fvip=3&keepalive=yes&fexp=23883098&c=WEB&txp=3511222&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRAIgJQkT-dWOQC1mMktjBFtT7BTLOkrnSmBJh3zEu14MQ0UCIEVOfJc49rTBOo3d9wBd0QAG5TnBAj99df4YQCYSj4GT&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgay7672oBID2XEoZUBA1YjX34yHSzIsb2lfkajFLDvvoCIC2LgZhdCXvTPJNbE8QIeGVc6QqtwzFN1qXmbUPsdRGX&ratebypass=yes",
-        "thumb": "https://raw.githubusercontent.com/MoosaSaadat/music-player/master/img.jpg"
-      },
-      {
-        "title": "Señorita",
-        "artist": "",
-        "album": "",
-        "link": "https://r3---sn-p5qlsndz.googlevideo.com/videoplayback?expire=1596241915&ei=m2MkX6WvLuGChga6nbjYAQ&ip=3.85.106.247&id=o-APRGe699FzA8Wos070G2WWtt7azSyLKKdKPOJ0NduMa7&itag=251&source=youtube&requiressl=yes&mh=A6&mm=31%2C29&mn=sn-p5qlsndz%2Csn-p5qs7n7d&ms=au%2Crdu&mv=m&mvi=3&pl=12&initcwndbps=1175000&vprv=1&mime=audio%2Fwebm&gir=yes&clen=12680866&dur=685.441&lmt=1541646852944225&mt=1596220231&fvip=3&keepalive=yes&fexp=23883098&c=WEB&txp=3511222&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRAIgJQkT-dWOQC1mMktjBFtT7BTLOkrnSmBJh3zEu14MQ0UCIEVOfJc49rTBOo3d9wBd0QAG5TnBAj99df4YQCYSj4GT&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgay7672oBID2XEoZUBA1YjX34yHSzIsb2lfkajFLDvvoCIC2LgZhdCXvTPJNbE8QIeGVc6QqtwzFN1qXmbUPsdRGX&ratebypass=yes",
-        "thumb": "https://a10.gaanacdn.com/images/albums/72/2657072/crop_175x175_2657072.jpg"
-      },
-      {
-        "title": "Wake Me Up",
-        "artist": "Avicii",
-        "album": "True, 2013",
-        "link": "http://mysound.ge/uploads/tracks/1932929623_1281390459_1755572096.mp3",
-        "thumb": "https://i1.sndcdn.com/artworks-000143888529-4mwefu-t500x500.jpg"
-      },
-      {
-        "title": "New Rules",
-        "artist": "Dua Lipa",
-        "album": "Dua Lipa, 2017",
-        "link": "http://mysound.ge/uploads/tracks/729760672_1526780201_1460816669.mp3",
-        "thumb": "https://a10.gaanacdn.com/images/albums/47/1908547/crop_175x175_1908547.jpg"
-      },
-    ];
+	<!-- partial:index.partial.html -->
+	<div class="main-wrapper">
+		<div class="header">
+			<input class="searchQuery" type="text" id="fname" placeholder="Search">
+			<a onclick="aa()"><button class="btn">Search</button></a>
+			<!-- <i class="far "><input type="button" name="fname"></i> -->
+		</div>
 
-    var currIndex = 0;
-    var isPlaying = false;
-    var currSong = new Audio();
+		<div class="song-wrapper">
+			<div class="song-thumb-wrapper">
+				<svg class="song-progress" width="200" height="200" viewBox="0 0 200 200">
+					<circle class="song-progress-meter" cx="100" cy="100" r="90" stroke="#4d3f61" stroke-width="10"
+						fill="none" />
+					<circle class="song-progress-value" cx="100" cy="100" r="90" stroke="#ae80d6" stroke-width="10"
+						fill="none" stroke-dasharray="0 600" stroke-linecap="round" />
+				</svg>
+				<div class="song-thumb"></div>
+			</div>
+			
+			<div class="song-info">
+				<span class="song-info-title">Welcome</span><br>
+				<span class="song-info-artist">Leet7here</span><br>
+				<span class="song-info-album"></span>
+			</div>
+		</div>
 
-    var songThumb = document.querySelector(".song-thumb");
-    var songTitle = document.querySelector(".song-info-title");
-    var songArtist = document.querySelector(".song-info-artist");
-    var songAlbum = document.querySelector(".song-info-album");
+		<div class="player-wrapper">
+			<i class="fas fa-circle-notch"></i>
+			<i class="fas fa-caret-left player-move-btn" onclick="prevSong()"></i>
+			<i class="fas fa-play-circle player-state-btn" onclick="toggleState()"></i>
+			<i class="fas fa-caret-right player-move-btn" onclick="nextSong()"></i>
+			<i class="fas fa-random"></i>
+		</div>
 
-    var stateButton = document.querySelector(".player-state-btn");
-    var songProgressBar = document.querySelector(".song-progress-value");
-    var volumeSlider = document.querySelector("#volume-slider");
-    var volumeTrail = document.querySelector(".volume-trail");
+		<div class="volume-wrapper">
+			<i class="fas fa-volume-off" style="text-align: right" onclick="adjustVolume(0)"></i>
+			<div class="volume-bar">
+				<input type="range" name="volume-slider" id="volume-slider" min="0" max="1" step="0.1" value="0.5"
+					onchange="adjustVolume(event.target.value)">
+				<div class="volume-trail"></div>
+			</div>
+			<i class="fas fa-volume-up" onclick="adjustVolume(1)"></i>
+		</div>
+	</div>
+	<script>
+		function aa() {
+			songsList = []
+			ss = document.getElementById("fname").value
+			if (ss != "") {
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open("POST", "/yt", false);
+				//Give Your site/api endpoint here
+				//Structure of my api is like this :   {data:[[songtitle,songlink],[songtitle,songlink]]}
+				xmlHttp.send(ss)
+				data = JSON.parse(xmlHttp.responseText)["data"]
+				for (x in data) {
+					var dict = {
+						title: data[x][0],
+						artist: "",
+						album: "",
+						link: data[x][1],
+						thumb: "https://raw.githubusercontent.com/MoosaSaadat/music-player/master/img.jpg"
+					}
+					songsList.push(dict)
+				}
+				changeSong()
+				toggleState()
+			} else {
+				document.querySelector(".song-info-title").innerHTML = "Please Enter <br> Song Name"
+			}
+		}
+		var songsList = [{
+				"title": "Alone",
+				"artist": "",
+				"album": "Alone (The Remixes), 2016",
+				"link": "https://r3---sn-p5qlsndz.googlevideo.com/videoplayback?expire=1596241915&ei=m2MkX6WvLuGChga6nbjYAQ&ip=3.85.106.247&id=o-APRGe699FzA8Wos070G2WWtt7azSyLKKdKPOJ0NduMa7&itag=251&source=youtube&requiressl=yes&mh=A6&mm=31%2C29&mn=sn-p5qlsndz%2Csn-p5qs7n7d&ms=au%2Crdu&mv=m&mvi=3&pl=12&initcwndbps=1175000&vprv=1&mime=audio%2Fwebm&gir=yes&clen=12680866&dur=685.441&lmt=1541646852944225&mt=1596220231&fvip=3&keepalive=yes&fexp=23883098&c=WEB&txp=3511222&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRAIgJQkT-dWOQC1mMktjBFtT7BTLOkrnSmBJh3zEu14MQ0UCIEVOfJc49rTBOo3d9wBd0QAG5TnBAj99df4YQCYSj4GT&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgay7672oBID2XEoZUBA1YjX34yHSzIsb2lfkajFLDvvoCIC2LgZhdCXvTPJNbE8QIeGVc6QqtwzFN1qXmbUPsdRGX&ratebypass=yes",
+				"thumb": "https://raw.githubusercontent.com/MoosaSaadat/music-player/master/img.jpg"
+			},
+			{
+				"title": "Señorita",
+				"artist": "",
+				"album": "",
+				"link": "https://r3---sn-p5qlsndz.googlevideo.com/videoplayback?expire=1596241915&ei=m2MkX6WvLuGChga6nbjYAQ&ip=3.85.106.247&id=o-APRGe699FzA8Wos070G2WWtt7azSyLKKdKPOJ0NduMa7&itag=251&source=youtube&requiressl=yes&mh=A6&mm=31%2C29&mn=sn-p5qlsndz%2Csn-p5qs7n7d&ms=au%2Crdu&mv=m&mvi=3&pl=12&initcwndbps=1175000&vprv=1&mime=audio%2Fwebm&gir=yes&clen=12680866&dur=685.441&lmt=1541646852944225&mt=1596220231&fvip=3&keepalive=yes&fexp=23883098&c=WEB&txp=3511222&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRAIgJQkT-dWOQC1mMktjBFtT7BTLOkrnSmBJh3zEu14MQ0UCIEVOfJc49rTBOo3d9wBd0QAG5TnBAj99df4YQCYSj4GT&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgay7672oBID2XEoZUBA1YjX34yHSzIsb2lfkajFLDvvoCIC2LgZhdCXvTPJNbE8QIeGVc6QqtwzFN1qXmbUPsdRGX&ratebypass=yes",
+				"thumb": "https://a10.gaanacdn.com/images/albums/72/2657072/crop_175x175_2657072.jpg"
+			},
+			{
+				"title": "Wake Me Up",
+				"artist": "Avicii",
+				"album": "True, 2013",
+				"link": "http://mysound.ge/uploads/tracks/1932929623_1281390459_1755572096.mp3",
+				"thumb": "https://i1.sndcdn.com/artworks-000143888529-4mwefu-t500x500.jpg"
+			},
+			{
+				"title": "New Rules",
+				"artist": "Dua Lipa",
+				"album": "Dua Lipa, 2017",
+				"link": "http://mysound.ge/uploads/tracks/729760672_1526780201_1460816669.mp3",
+				"thumb": "https://a10.gaanacdn.com/images/albums/47/1908547/crop_175x175_1908547.jpg"
+			},
+		];
 
-    function changeSong() {
-      let currentStatus = isPlaying;
-      if (currentStatus) toggleState();
-      songTitle.innerHTML = songsList[currIndex]["title"];
-      songArtist.innerHTML = songsList[currIndex]["artist"];
-      songAlbum.innerHTML = songsList[currIndex]["album"];
-      songThumb.style.backgroundImage = `url(${songsList[currIndex]["thumb"]})`;
-      currSong.src = songsList[currIndex]["link"];
+		var currIndex = 0;
+		var isPlaying = false;
+		var currSong = new Audio();
 
-      if (currentStatus) toggleState();
-    }
-    function nextSong() {
-      currIndex++;
-      if (currIndex >= songsList.length) currIndex = 0;
-      changeSong();
-    }
-    function prevSong() {
-      currIndex--;
-      if (currIndex < 0) currIndex = songsList.length - 1;
-      changeSong();
-    }
-    function toggleState() {
-      if (isPlaying) {
-        currSong.pause();
-        stateButton.classList = "fas fa-play-circle player-state-btn";
-      }
-      else {
-        currSong.play();
-        stateButton.classList = "fas fa-pause-circle player-state-btn";
-      }
-      isPlaying = !isPlaying;
-    }
-    function adjustVolume(currVol) {
-      currSong.volume = currVol;
-      console.log(currVol, currVol !== "0", currVol !== 0);
-      if (currVol !== "0" && currVol !== 0)
-        volumeTrail.style.width = `${currVol * 100 - 2}%`;
-      else
-        volumeTrail.style.width = "0%";
-      volumeSlider.value = currVol;
-    }
-    // nextSong();
-    currSong.addEventListener('timeupdate', () => {
-      let currPosition = currSong.currentTime / currSong.duration * 600;
-      if (!isNaN(currPosition))
-        songProgressBar.setAttribute("stroke-dasharray", `${currPosition} ${600-currPosition}`);
-      else
-        songProgressBar.setAttribute("stroke-dasharray", "0 600");
-    });
-  </script>
+		var songThumb = document.querySelector(".song-thumb");
+		var songTitle = document.querySelector(".song-info-title");
+		var songArtist = document.querySelector(".song-info-artist");
+		var songAlbum = document.querySelector(".song-info-album");
+
+		var stateButton = document.querySelector(".player-state-btn");
+		var songProgressBar = document.querySelector(".song-progress-value");
+		var volumeSlider = document.querySelector("#volume-slider");
+		var volumeTrail = document.querySelector(".volume-trail");
+
+		function changeSong() {
+			let currentStatus = isPlaying;
+			if (currentStatus) toggleState();
+			songTitle.innerHTML = songsList[currIndex]["title"];
+			songArtist.innerHTML = songsList[currIndex]["artist"];
+			songAlbum.innerHTML = songsList[currIndex]["album"];
+			songThumb.style.backgroundImage = `url(${songsList[currIndex]["thumb"]})`;
+			currSong.src = songsList[currIndex]["link"];
+
+			if (currentStatus) toggleState();
+		}
+
+		function nextSong() {
+			currIndex++;
+			if (currIndex >= songsList.length) currIndex = 0;
+			changeSong();
+		}
+
+		function prevSong() {
+			currIndex--;
+			if (currIndex < 0) currIndex = songsList.length - 1;
+			changeSong();
+		}
+
+		function toggleState() {
+			if (isPlaying) {
+				currSong.pause();
+				stateButton.classList = "fas fa-play-circle player-state-btn";
+			} else {
+				currSong.play();
+				stateButton.classList = "fas fa-pause-circle player-state-btn";
+			}
+			isPlaying = !isPlaying;
+		}
+
+		function adjustVolume(currVol) {
+			currSong.volume = currVol;
+			console.log(currVol, currVol !== "0", currVol !== 0);
+			if (currVol !== "0" && currVol !== 0)
+				volumeTrail.style.width = `${currVol * 100 - 2}%`;
+			else
+				volumeTrail.style.width = "0%";
+			volumeSlider.value = currVol;
+		}
+		// nextSong();
+		currSong.addEventListener('timeupdate', () => {
+			let currPosition = currSong.currentTime / currSong.duration * 600;
+			if (!isNaN(currPosition))
+				songProgressBar.setAttribute("stroke-dasharray", `${currPosition} ${600-currPosition}`);
+			else
+				songProgressBar.setAttribute("stroke-dasharray", "0 600");
+		});
+	</script>
 </body>
+
 </html>
