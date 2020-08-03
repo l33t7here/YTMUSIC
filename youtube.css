@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Vibes&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700&display=swap');
 body{background:black}
-input{height:30px;opacity:.2;}
+input{height:30px;opacity: 1;}
 input::-webkit-input-placeholder {
-     color: black; /*Change the placeholder color*/
+     color: #ae80d6; /*Change the placeholder color*/
      opacity: 1; /*Change the opacity between 0 and 1*/
 }
 body {
 	margin: 0;
 	padding: 0;
 	height: 100vh;
-	width: 100vw;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -26,23 +26,34 @@ body {
 .main-wrapper {
 	background-color: #1f1f1f;
 	color: white;
-	min-height: 70vh;
-	width: 80vw;
-	max-width: 300px;
-	max-height: 500px;
+	height: 70vh;
+	width: fit-content;
+	min-width: 300px;
 	margin: auto;
 	border-radius: 1rem;
 	display: flex;
 	flex-flow: column wrap;
 	justify-content: space-between;
+	padding: .7rem;
 }
 
 .header {
 	display: flex;
 	box-sizing: border-box;
-	justify-content: space-between;
-	margin: 1.5rem;
+	align-items: center;
+	width: 100%;
 	color: #500474;
+}
+
+.searchQuery{
+	outline: none;
+	width: 70%;
+	margin: 5px;
+	padding: 0px 5px;
+	border: none;
+	background-color: #323232;
+	color: #ae80d6;
+	font-weight: 500;
 }
 
 .header > i {
@@ -93,7 +104,7 @@ body {
 	text-transform: uppercase;
 	letter-spacing: 10px;
 	margin-right: -10px;
-	font-size: 20px;
+	font-size: 1em;
 	font-weight: bold;
 	font-family: 'Vibes', cursive;
 }
@@ -178,13 +189,37 @@ body {
 	background-color: #ae80d6;
 	transition: width linear 0.1s;
 }
+.header a{
+	width: 20%;
+}
 .btn { 
+	width: 100%;
+	height: 100%;
 	cursor: pointer; 
-	border: 1px solid #black; 
-	background-color: transparent; 
-	height: 30px; 
-	width: 55px; 
-	color: #3498db; 
+	border: 1px solid black; 
+	border-radius: 5px;
+	outline: none;
+	background-color: transparent;
+	padding: 5px;
+	color: #ae80d6; 
 	font-size: 0.8em; 
+	font-weight: 500;
 	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6); 
 } 
+.btn :focus, .btn:hover{
+	background-color: #323232;
+}
+@media screen and (max-width: 1200px){
+	.main-wrapper{
+		min-width: 0;
+		width: 60%;
+		height: 80vh;
+	}
+}
+@media screen and (max-width: 500px) {
+	.main-wrapper{
+		min-width: 0;
+		width: 80%;
+		height: 80vh;
+	}
+}
