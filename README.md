@@ -4,4 +4,4 @@ Fork iT -- Improve iT
 SIMPLE BETTER FASTER ;)
 
 
-LIVE DEMO :- http://leethere.herokuapp.com/
+LIVE DEMO :- http://leethere.me/
